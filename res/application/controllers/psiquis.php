@@ -182,7 +182,7 @@ class Psiquis extends CI_Controller {
         }
         return $out;
     }
-    public function insert()
+    public function insert($reffer="")
     {
         $respuestas=$this->input->post('respuesta');
         $descripcion=$this->input->post('descripcion');
@@ -217,6 +217,8 @@ class Psiquis extends CI_Controller {
         foreach ($data_item as $key => $value)
          $this->psiquis->insert($value,'data_item');
          
+        if($reffer!="")redirect(base_url().'psiquis/print_item/'.$reffer);
+         
         $data=array('titulo'=>'Psiquis - Gracias');
         echo  $this->load->view('template/head',$data,TRUE);
         echo  $this->load->view('template/javascript',FALSE,TRUE);
@@ -224,12 +226,17 @@ class Psiquis extends CI_Controller {
         echo $this->css;
         echo $this->javascript;
         echo "<body><div>";
-        echo "<h1 align='center' class='c'>Muchas gracias, por terminar el test.</h1><h2 align='center' class='c'>Pronto te contactaremos, con los resultados.</h2><br><br>";
+        echo "<h1 align='center' class='c'>
+        Muchas gracias, por terminar el test.</h1>
+        <h2 align='center' class='c'>Tus respuestas serán comparadas de forma anónima, con otras en la población similar.
+        <br>Pronto te contactaremos, con los resultados.</h2>
+        <p align='center' >¿Quien más crees que podría interesarle optimiar su rendimiento?<br><br>";
+        echo "<p align='center' >";#Botones compartirredes sociles
         echo "</div>";
         
          
     }
-    public function print_item($id)
+    public function print_item($id,$id2="")
     {        
         $item = $this->psiquis->get($id,'*','item');
         $item->data = $this->psiquis->get_all(array('item'=>$id),'*','data_item');
@@ -253,7 +260,7 @@ class Psiquis extends CI_Controller {
         echo "<body><div>";
                  
         $e=0;
-        echo  form_open_multipart('psiquis/insert',array('name'=>'f'));  
+        echo  form_open_multipart('psiquis/insert/'.$id2,array('name'=>'f'));  
         echo form_input(array('type'=>'hidden','name'=>'test','value'=>$id));#inprimir otros datos necesarios
         echo form_input(array('type'=>'hidden','name'=>'usuario','value'=>$this->session->userdata('id')));#inprimir otros datos necesarios
           
