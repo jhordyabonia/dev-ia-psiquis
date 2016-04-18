@@ -1,0 +1,5 @@
+<VirtualHost *:80>
+  ServerName sm.prveedor.com.co
+  ServerAlias *.sm.prveedor.com.co
+  UseCanonicalName Off
+</VirtualHost>

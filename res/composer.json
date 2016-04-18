@@ -1,0 +1,13 @@
+{
+    "name": "proveedor/migracion-bd",
+    "description": "Plataforma web que conecta micro empresas con proveedores\"",
+    "require": {
+        "league/plates": "^3.1"
+    },
+    "authors": [
+        {
+            "name": "Luis Carlos Martinez",
+            "email": "karloxmartinez@hotmail.com"
+        }
+    ]
+}

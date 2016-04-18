@@ -1,0 +1,42 @@
+body{
+
+}
+.container{
+	margin-right: 300px;
+
+}
+
+h1{
+padding: 40px;
+color: blue;
+margin: 20px auto;
+margin-left: 150px;
+text-shadow: 5px 5px 10px rgba(255,255,255,0.5);
+
+}
+header{ /*cabecera principal*/
+
+background: #E4E4E4;
+border-radius: 1px; /**redondea border*/
+margin: 20px auto;
+/*max-width: 990px; /*ajuste automatico*/
+margin-left: 110px;
+margin-right: 30px;
+padding: 7px; /*separacion del border de la caja*/
+text-align:left; /*centrar texto*/
+font-size: 21px;
+}
+p{
+margin-top: -25px;
+color:#E4E4E4;
+margin-left: 500px;
+max-width: 960px;
+font-family: Arial, sans-serif;
+
+}
+@media(max-width: 1024px){
+     p{
+     	color: red;
+     	padding-right: 44px;
+     }
+}
