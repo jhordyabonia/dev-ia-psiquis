@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://proveedorlinux0.cloudapp.net/';
+$config['base_url']	= 'http://proveedorlinux0.cloudapp.net/index.php';
 
 /*
 |--------------------------------------------------------------------------
