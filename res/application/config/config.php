@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://192.168.33.10/';
+$config['base_url']	= 'http://proveedorlinux0.cloudapp.net/';
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +26,7 @@ $config['base_url']	= 'http://192.168.33.10/';
 | variable so that it is blank.
 |
 */
-$config['index_page'] = '';
+$config['index_page'] = 'psiquis';
 
 /*
 |--------------------------------------------------------------------------
