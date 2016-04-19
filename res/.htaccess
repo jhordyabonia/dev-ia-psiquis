@@ -1,7 +1,7 @@
 RewriteEngine on 
 
 RewriteCond %{HTTP_HOST} ^proveedor.com.co [NC]
-RewriteRule ^(.*)$ http://www.proveedor.com.co/$1 [L,R=301]
+RewriteRule ^(.*)$ http://proveedorlinux0.cloudapp.net/$1 [L,R=301]
 
 RewriteCond $1 !^(index.php|phpmyadmin|pma|assets|img|js|css|uploads|robots.txt)
 RewriteRule ^(.*)$ index.php/$1 [L]
