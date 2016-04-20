@@ -7,7 +7,7 @@ class Check_nav_disp
 	
     public function __construct()
     {
-        $this->ci =& get_instance();
+        $this->ci =&get_instance();
 		
        # !$this->ci->load->helper('url') ? $this->ci->load->helper('url') : false;
 		

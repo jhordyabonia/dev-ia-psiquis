@@ -202,7 +202,6 @@ if (defined('ENVIRONMENT'))
  *
  */
 
-require FCPATH . 'vendor/autoload.php';
 require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
