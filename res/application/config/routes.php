@@ -42,7 +42,8 @@ $route['default_controller'] = "index";
 $route['404_override'] = '';
 $route['productos/pagina'] = 'productos';//cuando sea la primera página
 $route['productos/pagina/(:num)'] = 'productos';//cuando no sea la primera página
-$route['index.php/psiquis/(:any)'] = "psiquis/$1/$2";
+$route['psiquis/(:any)'] = "index.php/psiquis/$1";
+$route['psiquis'] = "index.php/psiquis";
 
 
 /* End of file routes.php */
