@@ -113,6 +113,14 @@ class Psiquis extends CI_Controller {
                     }
             </style>";
     }
+    
+    public tests()
+    {
+        $uri=$_SERVER['REQUEST_URI'];
+        $destino=str_replace('psiquis','index.php/pisquis',$uri);
+        # redirect($destino);
+        echo $uri,'<br>',$destino;
+    }
     private function search($needs,$stack,$key_need='clave',$value_need='valor')
     {
         if(!is_array($needs))$needs=array(''=>$needs); 
