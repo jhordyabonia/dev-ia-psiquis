@@ -38,11 +38,11 @@
 |
 */
 
-$route['default_controller'] = "psiquis";
+$route['default_controller'] = "index";
 $route['404_override'] = '';
 $route['productos/pagina'] = 'productos';//cuando sea la primera página
 $route['productos/pagina/(:num)'] = 'productos';//cuando no sea la primera página
-$route['(:any)'] = "index.php/psiquis/$1/$2";
+$route['index.php/(:any)'] = "/$1/$2";
 
 
 /* End of file routes.php */
