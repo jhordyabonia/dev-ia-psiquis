@@ -9,7 +9,7 @@ class Check_nav_disp
     {
         $this->ci =& get_instance();
 		
-        !$this->ci->load->helper('url') ? $this->ci->load->helper('url') : false;
+       # !$this->ci->load->helper('url') ? $this->ci->load->helper('url') : false;
 		
 		!$this->ci->load->library('user_agent') ? $this->ci->load->library('user_agent') : false;
  
@@ -87,12 +87,7 @@ class Check_nav_disp
 
 	public function identificado(){
 		$this->CI=&get_instance();
-		$controllersprivados = array(
-			'registroproducto', 'tablero_usuario',
-			 'organizar_productos','reg_oferta',
-			 'organizar_ofertas','mensajes_usuario',
-			 'contactos','bloquear_contacto',
-			 'contactar_usuario');
+		$controllersprivados = array('psiquis_login');
 
 		// if($this->CI->session->userdata('logged_in')==true && $this->CI->router->method == 'login') redirect ('index_control');
 		// if($this->CI->session->userdata('logged_in')!=true && $this->CI->router->method != 'login') redirect('user/login'); 
