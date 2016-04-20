@@ -117,9 +117,9 @@ class Psiquis extends CI_Controller {
     public tests()
     {
         $uri=$_SERVER['REQUEST_URI'];
-        $destino=str_replace('psiquis','index.php/pisquis',$uri);
+        $destino="";#str_replace('psiquis','index.php/pisquis',$uri);
         # redirect($destino);
-        echo $uri,'<br>',$destino;
+        echo $uri.'<br>'.$destino;
     }
     private function search($needs,$stack,$key_need='clave',$value_need='valor')
     {
