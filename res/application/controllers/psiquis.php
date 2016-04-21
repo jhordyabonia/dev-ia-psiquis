@@ -41,6 +41,15 @@ class Psiquis extends CI_Controller {
                 </stylee>";
         $this->css="
             <style>
+            .img{
+                padding: 5%;
+                max-width: 100%;
+            }
+            .div2
+            {
+                margin: 2%;
+                border: 1px solid whitesmoke;
+            }
             .div {
                     width: 100%;
                     padding: 10px 15px 10px 15px;
@@ -108,38 +117,26 @@ class Psiquis extends CI_Controller {
                 .i{
                      width: 50%;
                 }
-                .c {
-                        width: 100%;
-                    }
+                .h{
+                    /* border: 1px solid whitesmoke; */
+                    /* margin: 2%; */
+                    background-color: rgba(250,250,250,0.5);
+                    position: absolute;
+                    top: 8%;
+                 }
+                .c 
+                {
+                     width: 100%;
+                     padding: 3%;
+                     margin: 1%;
+                 }
+                 .option
+                 {
+                      padding-left: 2%;
+                      padding-right: 2%;
+                 }
             </style>";
-    }
-    
-    public function tests()
-    {
-        $uri=$_SERVER['REQUEST_URI'];
-        $destino=str_replace('psiquis','index.php/psiquis',$uri);
-         redirect($destino);
-        echo $uri.'<br>'.$destino;
-    }
-    private function search($needs,$stack,$key_need='clave',$value_need='valor')
-    {
-        if(!is_array($needs))$needs=array(''=>$needs); 
-        foreach ($stack as $key => $value) 
-            foreach ($needs as $key => $need)
-                if(is_object($value))
-                { if($value->$key_need==$need)return $value->$value_need;}
-                else if(is_array($value)) 
-                { if($value[$key_need]==$need)return $value[$value_need];}
-                
-        foreach ($stack as $key => $value)
-        {
-            if(!(is_object($value)||is_array($value)))continue;
-            $var=$this->search($need,$value,$key_need,$value_need);
-            if($var!=FALSE)return $var;
-        }
-        return FALSE; 
-    } 
-    
+    }   
     function index()
     {
         #ENVIRONMENT="";
@@ -277,43 +274,58 @@ class Psiquis extends CI_Controller {
             for($i=1;$i<=$item->numero_preguntas;$i++)
                 {
                     $t="pregunta$i";
+                    unset($recursos);
                     $recursos=explode('.',$item->recursos);
                     $none=$e++==0?'':'none';
-                    echo "<div id='div$e' style='display:$none'><h1 align='center' class='c'> $e ",$item->texto_encabezado,' ',$item->$t,'?</h1><br><br>';
+                    #echo "<div id='div$e' style='display:$none'><h1 align='center' class='c'> $e ",$item->texto_encabezado,' ',$item->$t,'?</h1><br><br>';
+                    echo $this->print_head($e, $none, $item->texto_encabezado,$item->$t);
                     echo form_input(array('id'=>"input$e",'type'=>'hidden','name'=>'respuesta[]'));
-                    foreach ($this->psiquis->get_ran($recursos[1],$recursos[0]) as $key => $value) 
-                        echo $this->print_html(array('0'=>$e,'1'=>$value),$item->html_tag); 
-                    echo "</div>";                    
+                        echo "<div class='option'>";
+                            foreach ($this->psiquis->get_ran(intval($recursos[1]),$recursos[0],'valor',($i-1)*intval($recursos[1])) as $key => $value) 
+                                echo $this->print_body(array('0'=>$e,'1'=>$value),$item->html_tag); 
+                        echo "</div>";                    
+                    echo "</div>";#print_head                    
                  }
           }
          echo  form_close();
 
         return;
        }
-      
-       private function render_html($view,$data)
+       private function print_head($e,$none, $head="",$ask="",$image=FALSE)
        {
-           $tmp=$view;
-            foreach ($data as $key => $value) 
-                $tmp=str_replace("%".$key,$value,$tmp);
-             
-             return $tmp;
+            $out="<div id='div$e' align='center' style='display:$none'><div class='div2' ><h1 class='c'> $head $ask ?</h1><br></div><br>";                     
+           if($image!=FALSE)
+            $out="<div id='div$e' align='center' style='display:$none'>
+            <div class='div2' >
+            <img class='img' src='$image'/>
+            <h1 class='c h'> $head $ask ?</h1><br></div><br>";
+            return $out;    
        }
-       public function print_html($data,$tag)
-       {
-           $url=base_url();
-           $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>"; 
-           if($tag=='div')
-           $out="<$tag class='c $tag' onclick='asistente(%0,this);'>%1</$tag>";      
-          if($tag=='span')
-           $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>";      
-           else if($tag=='img')                
+      
+    private function render_html($view,$data)
+    {
+         $tmp=$view;
+         foreach ($data as $key => $value) 
+             $tmp=str_replace("%".$key,$value,$tmp);
+             
+         return $tmp;
+     }
+    public function print_body($data,$tag)
+    {
+         $url=base_url();
+         $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>"; 
+         if($tag=='div')
+            $out="<$tag class='c $tag' onclick='asistente(%0,this);'>%1</$tag>";      
+         if($tag=='span')
+            $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>";      
+         else if($tag=='img')                
            $out="<$tag class='i' onclick='asistente(%0,this);' src='$url%1'>%1</$tag>";           
             
-            return $this->render_html($out,$data);
-       }       
-       function login($reffer="")
-        {
+         return $this->render_html($out,$data);
+     }       
+       
+    function login($reffer="")
+    {
              $usuario=$this->session->userdata('id');
             if($usuario)redirect(base_url().'psiquis/'.$reffer);
             $usuario=$this->input->post('usuario');
@@ -406,8 +418,8 @@ class Psiquis extends CI_Controller {
                                 <script>login();</script>";
                         echo  form_close();
        }       
-       function singup($reffer="")
-        {            
+    function singup($reffer="")
+    {            
             $usuario=$this->session->userdata('id');
             if($usuario)redirect(base_url().'psiquis/'.$reffer);
             $usuario=$this->input->post('usuario');
@@ -514,8 +526,8 @@ class Psiquis extends CI_Controller {
                                 <script>login();</script>";
                         echo  form_close();
        }       
-       public function lista()
-       {           
+    public function lista()
+    {           
             $id=$this->session->userdata('id');
             $obj;$obj->id=0;
             $list_system=$this->psiquis->get(array('nombre'=>'list_system'),'id','item')->id;
@@ -564,9 +576,9 @@ class Psiquis extends CI_Controller {
                  echo "<a class='c btn btn-default' href='$url'>".$item->nombre."</a>";                  
             }
             echo "</div>"; 
-       }
-       public function insert_item($reffer)
-       {
+    }
+    public function insert_item($reffer)
+    {
         $claves=$this->input->post('clave');
         $valores=$this->input->post('valor');
         $usuario=$this->session->userdata('id');
@@ -591,9 +603,9 @@ class Psiquis extends CI_Controller {
          $this->psiquis->insert($value,'data_item');
                        
         redirect(base_url().'psiquis/login/'.$reffer);
-       }       
-       public function make_item($reffer="",$data_item="pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.palabra")
-       {
+     }       
+    public function make_item($reffer="",$data_item="pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.palabra")
+    {
             $data=array('titulo'=>'lista de test');
             echo  $this->load->view('template/head',$data,TRUE);
             echo  $this->load->view('template/javascript',FALSE,TRUE);
@@ -666,8 +678,5 @@ class Psiquis extends CI_Controller {
             }         
             </script>";
             echo  form_close();
-            
-           
-       }
-      
+    }
 }

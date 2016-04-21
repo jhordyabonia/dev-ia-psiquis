@@ -7,8 +7,8 @@ class Psiquis_model extends CI_Model {
         parent::__construct();
         
     }
- public function get($where = NULL,$select='*',$table='usuarios',$id='id') 
- {
+  public function get($where = NULL,$select='*',$table='usuarios',$id='id') 
+  {
         $this->db->select($select);
         $this->db->from($table);
         if ($where !== NULL) {
@@ -30,10 +30,9 @@ class Psiquis_model extends CI_Model {
         } else {
             return false;
         }
-    }
-
-    public function get_all($where = NULL,$select='*',$table='usuarios',$id='id') 
-     {
+  }
+  public function get_all($where = NULL,$select='*',$table='usuarios',$id='id') 
+  {
         $this->db->select($select);
         $this->db->from($table);
         if ($where !== NULL) {
@@ -45,44 +44,46 @@ class Psiquis_model extends CI_Model {
                 $this->db->where($id, $where);
             }
         }
+        unset($result);
         $result = $this->db->get()->result();
         if ($result)
         {   return $result; }
         else 
         {   return false;   }
+  }
+  private function rand($rand,$i,$f,$r,$s,$h=-1)
+   {        
+      $out=$r[$i>=$f?$f-1:$i];
+      
+      if($rand=='TRUE')
+          {$x=rand($i,$f);$out=$r[$x>=$f?$f-1:$x];}
+          
+      if(!($s==''||$s=='*'))
+           $out=$out->$s;
+                
+       $out=$out=='FALSE'?FALSE:$out;
+       $out=$out=='system'?FALSE:$out;
+       $out=$out=='estandar'?FALSE:$out;
+   
+       return $out;
     }
-    private function rand($rand='TRUE',$i,$f,$a,$r,$s)
-    {        
-        $out=$r[$a];
-        if($rand=='TRUE')
-            $out=$r[rand($i,$f)];
-        #else if($rand=='FALSE')
-        
-        if(!($s==''||$s=='*'))
-            $out=$out->$s;
-            
-        $out=$out=='system'?$out=FALSE:$out;
-        $out=$out=='estandar'?$out=FALSE:$out;
-        $out=$out=='system'?$out=FALSE:$out;
-        $out=$out=='system'?$out=FALSE:$out;
-        
-        return $out;
-    }
-    public function get_ran($cantidad,$fuente,$select='valor')
+    public function get_ran($cantidad,$fuente,$select='valor',$index=0)
     {
         $fuente=$this->get(array('nombre'=>$fuente),'id','item')->id;
             
         $r=$this->get_all(array('item'=>$fuente),$select,'data_item');
-        $RAN=$this->get_all(array('item'=>$fuente,'valor'=>'ran'),'valor','data_item');
-        $size=count($r);     
+        $RAN=$this->get(array('item'=>$fuente,'clave'=>'ran'),'valor','data_item')->valor;
+        $size=count($r);
+       
+        unset($out);     
         $out=array();
-        for($i=0;$i<$cantidad*2;$i++)   
-            $out[$i]=$this->rand($RAN,1,$size,$i,$r,$select);
+        for($i=0;$i<$cantidad*3||$i<$size;$i++)   
+            $out[$i]=$this->rand($RAN,$i,$size,$r,$select);
             
         $tmp=array();$a=$cantidad;
         foreach ($out as $key => $value)
-         if(!$value&&0<=$a--) continue;
-         else  $tmp[]=$value;
+         if(!$value||0>=$a--) continue;
+         else  $tmp[]=$out[$RAN=='TRUE'?$key:$index+$key];
                 
         return $tmp;        
     }
