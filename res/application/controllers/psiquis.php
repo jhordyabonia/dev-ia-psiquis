@@ -115,7 +115,11 @@ class Psiquis extends CI_Controller {
                   background-color:lightgray;
                 }
                 .i{
-                     width: 50%;
+                     color: white;
+                    float: left;
+                    max-height: 50%;
+                    max-width: 48%;
+                    margin: 1%;
                 }
                 .h{
                     /* border: 1px solid whitesmoke; */
@@ -135,6 +139,28 @@ class Psiquis extends CI_Controller {
                       padding-left: 2%;
                       padding-right: 2%;
                  }
+                 .top {
+                    background-color: #0C82CF;
+                    height: 100px;
+                    color: white;
+                    padding: 10%;
+                    font-family: verdana;
+                    font-weight: bold;
+                    font-size: 160%;
+                }
+                .body {
+                    padding: 5% 8% 0% 5%;
+                }
+                .regiutro {
+                    float: right;
+                    background: linear-gradient(#FDCC50,#FEB204);
+                    color: white;
+                    font-size: 170%;
+                }
+                #title_welcome
+                {
+                    color:#0C82CF;
+                }
             </style>";
     }   
     function index()
@@ -278,7 +304,7 @@ class Psiquis extends CI_Controller {
                     $recursos=explode('.',$item->recursos);
                     $none=$e++==0?'':'none';
                     #echo "<div id='div$e' style='display:$none'><h1 align='center' class='c'> $e ",$item->texto_encabezado,' ',$item->$t,'?</h1><br><br>';
-                    echo $this->print_head($e, $none, $item->texto_encabezado,$item->$t);
+                    echo $this->print_head($e, $none, $item->texto_encabezado,$item->$t,$item->imagen_encabezado);
                     echo form_input(array('id'=>"input$e",'type'=>'hidden','name'=>'respuesta[]'));
                         echo "<div class='option'>";
                             foreach ($this->psiquis->get_ran(intval($recursos[1]),$recursos[0],'valor',($i-1)*intval($recursos[1])) as $key => $value) 
@@ -293,11 +319,12 @@ class Psiquis extends CI_Controller {
        }
        private function print_head($e,$none, $head="",$ask="",$image=FALSE)
        {
+           $url=base_url()."uploads";
             $out="<div id='div$e' align='center' style='display:$none'><div class='div2' ><h1 class='c'> $head $ask ?</h1><br></div><br>";                     
            if($image!=FALSE)
             $out="<div id='div$e' align='center' style='display:$none'>
             <div class='div2' >
-            <img class='img' src='$image'/>
+            <img class='img' src='$url/$image'/>
             <h1 class='c h'> $head $ask ?</h1><br></div><br>";
             return $out;    
        }
@@ -312,14 +339,14 @@ class Psiquis extends CI_Controller {
      }
     public function print_body($data,$tag)
     {
-         $url=base_url();
+         $url=base_url().'uploads/';
          $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>"; 
          if($tag=='div')
             $out="<$tag class='c $tag' onclick='asistente(%0,this);'>%1</$tag>";      
          if($tag=='span')
             $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>";      
          else if($tag=='img')                
-           $out="<$tag class='i' onclick='asistente(%0,this);' src='$url%1'>%1</$tag>";           
+           $out="<div style='color:white'> <$tag class='i' onclick='asistente(%0,this);' src='$url%1'>%1</$tag></div>";           
             
          return $this->render_html($out,$data);
      }       
@@ -604,7 +631,7 @@ class Psiquis extends CI_Controller {
                        
         redirect(base_url().'psiquis/login/'.$reffer);
      }       
-    public function make_item($reffer="",$data_item="pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.palabra")
+    public function make_item($reffer="",$data_item="imagen_encabezado101''111pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.4111ran101FALSE")
     {
             $data=array('titulo'=>'lista de test');
             echo  $this->load->view('template/head',$data,TRUE);
@@ -679,4 +706,34 @@ class Psiquis extends CI_Controller {
             </script>";
             echo  form_close();
     }
+    public function welcome()
+    {
+         $url=base_url().'psiquis';
+         $data=array('titulo'=>'Psiquis welcome!!!');
+         echo  $this->load->view('template/head',$data,TRUE);
+         echo  $this->load->view('template/javascript',FALSE,TRUE);
+         echo $this->css;
+         echo $this->javascript;
+         echo "<div class='top'>Psiquis</div>";
+         echo "<div class='body'>
+            <h3 id='title_welcome'> Bienvenido</h3>
+            <p align='justify' style='font-size: larger;'>
+                Psiquis la primera app que te optimiza a ti no a tu teléfono
+            </p>
+            <p align='justify' style='font-size: initial;'>
+                Ssaca el mejor provecho de la autosugestión, automotivacion. 
+           <br> ¿Cuantas veces te has propuesto mejorar su rendimiento académico o laboral... lo  analizas, planeas, y nunca lo ejecutas? 
+           <br> Descubre que es eso que te falta. Que evita que lleves a la acción tus pensamientos, tus ideas.
+           <br> 
+           <br> Aprende mas sobre ti. sobre lo que que te motiva, lo que te frustra. Crece..
+                Lleva a cabo todos tus proyectos sin escusas, de la mejor manera, sin estresarte y disfrutalo. no sufras.
+            </p>
+            <p>
+                <a class='btn btn-default regiutro' href='$url/singup/lista'>Inicia ya! es gratís</a>
+            </p>                
+         </div>";
+         echo "<div class='footer'></div>";
+            
+        
+    } 
 }
