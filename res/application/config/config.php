@@ -15,7 +15,7 @@
 |
 */
 #$config['base_url']	= 'http://192.168.33.10/';
-#$config['base_url']	= 'http://proveedorlinux0.cloudapp.net/';
+$config['base_url']	= 'http://proveedorlinux0.cloudapp.net/';
 
 /*
 |--------------------------------------------------------------------------
