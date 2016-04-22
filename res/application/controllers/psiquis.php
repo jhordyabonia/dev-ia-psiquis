@@ -248,6 +248,8 @@ class Psiquis extends CI_Controller {
         foreach ($data_item as $key => $value)
          $this->psiquis->insert($value,'data_item');
          
+        $this->psiquis->insert(array('usuario'=>$usuario,'clave'=>'history','valor'=>$test),'data_usuario');
+        
         if($reffer!="")redirect(base_url().'psiquis/print_item/'.$reffer);
          
         $data=array('titulo'=>'Psiquis - Gracias');
@@ -561,14 +563,18 @@ class Psiquis extends CI_Controller {
             $out;  $out->id=0;
             $list_system=$this->implode($this->psiquis->get_all(array('item'=>$list_system),'*','data_item'),$out);
             $data_user = $this->implode($this->psiquis->get_all(array('usuario'=>$id),'*','data_usuario'),$obj);
+            $history = $this->psiquis->get_all(array('usuario'=>$id,'clave'=>'history'),'*','data_usuario');
+            
+            $tmp=array();
+            foreach ($history as $key => $value) 
+                $tmp[]=$value->valor;
+            $history=$tmp;
+            
             $items = $this->psiquis->get_all(null,'*','item');
             $objs=array();
             foreach ($items as $key => $item)
             {
-                if($list_system->list_system==$item->id)continue;
-                if($list_system->diccionario==$item->id)continue;
-                if($list_system->galeria==$item->id)continue;
-                
+                if(in_array($item->id,$history))continue;
                 if(33==$item->id)continue;
                 if(32==$item->id)continue;
                 if(31==$item->id)continue;
@@ -586,7 +592,7 @@ class Psiquis extends CI_Controller {
             }
             $items=$objs;
             #echo "<PRE>";
-            #print_r($items);
+            #print_r($data_user);
             #echo "</PRE>";
             #return;
             $data=array('titulo'=>'lista de test');
@@ -628,7 +634,7 @@ class Psiquis extends CI_Controller {
                  
         foreach ($data_item as $key => $value)
          $this->psiquis->insert($value,'data_item');
-                       
+                                
         redirect(base_url().'psiquis/login/'.$reffer);
      }       
     public function make_item($reffer="",$data_item="imagen_encabezado101''111pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.4111ran101FALSE")
@@ -721,7 +727,7 @@ class Psiquis extends CI_Controller {
                 Psiquis la primera app que te optimiza a ti no a tu teléfono
             </p>
             <p align='justify' style='font-size: initial;'>
-                Ssaca el mejor provecho de la autosugestión, automotivacion. 
+                Saca el mejor provecho de la autosugestión, automotivacion. 
            <br> ¿Cuantas veces te has propuesto mejorar su rendimiento académico o laboral... lo  analizas, planeas, y nunca lo ejecutas? 
            <br> Descubre que es eso que te falta. Que evita que lleves a la acción tus pensamientos, tus ideas.
            <br> 
