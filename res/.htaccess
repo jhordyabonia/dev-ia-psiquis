@@ -5,6 +5,3 @@ RewriteRule ^(.*)$ http://www.proveedor.com.co/$1 [L,R=301]
 
 RewriteCond $1 !^(index.php|phpmyadmin|pma|assets|img|js|css|uploads|robots.txt)
 RewriteRule ^(.*)$ index.php/$1 [L]
-
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^([^\.]+)$ $1.php [NC,L]
