@@ -11,6 +11,9 @@
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="<?=base_url() ?>uploads/default.ico" rel="shortcut icon" />
 
+<script src = "<?=base_url()?>assets/js/jquery.js"></script>
+<script src = "<?=base_url()?>assets/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 <div class="container-fluid head_home"><!-- div.container-fluid aplica a todo  -->

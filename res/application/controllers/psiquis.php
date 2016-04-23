@@ -116,6 +116,16 @@ a.share-btn{
                 padding: 5%;
                 max-width: 100%;
             }
+            .nav_bar
+            {
+                padding: 1%;
+                border: 1px solid whitesmoke;
+                position: fixed;
+                width: 100%;
+                height: 7%;
+                background-color: rgba(250,250,250,0.5);
+                z-index: 1;
+            }
             .div2
             {
                 margin: 2%;
@@ -129,22 +139,14 @@ a.share-btn{
                     text-align: justify;
                 }
                 input:invalid 
-                {
+                { border: 1px solid red;}
                         
-                        border: 1px solid red;
-                        
-                        }
-                        
-                        /* Estilo por defecto */
-                        
-                        input:valid {
-                        
-                        border: 1px solid green;
-                        
-                }
+                input:valid 
+                {border: 1px solid green;}
                 input
                 {
                     color:black!important;
+                    border: 1px solid #0C82CF;
                 }
                 .continuar
                 {
@@ -199,6 +201,7 @@ a.share-btn{
                     position: absolute;
                     top: 8%;
                  }
+                 
                 .c 
                 {
                      width: 100%;
@@ -214,7 +217,7 @@ a.share-btn{
                     background-color: #0C82CF;
                     height: 100px;
                     color: white;
-                    padding: 10%;
+                    padding: 3%;
                     font-family: verdana;
                     font-weight: bold;
                     font-size: 160%;
@@ -222,11 +225,18 @@ a.share-btn{
                 .body {
                     padding: 5% 8% 0% 5%;
                 }
-                .regiutro {
+                .registro {
                     float: right;
                     background: linear-gradient(#FDCC50,#FEB204);
                     color: white;
                     font-size: 170%;
+                }
+                .item_nav_bar
+                {  
+                    color: black;
+                    font-size: 130%;
+                    float: right;
+                    padding: 2% 1% 0% 1%;
                 }
                 #title_welcome
                 {
@@ -287,14 +297,12 @@ a.share-btn{
     
 public function compartir($url='',$titulo='Psiquis, la primera app que te optimiza a ti no a tu teléfono',$descripcion='',$img='psiquis.png')
     {
-        $url=rawurlencode($url);
         $url.=$url==''?base_url().'psiquis':'';
+        $url=rawurlencode($url);
         
-        echo $this->load->view('template/head',$this->data,TRUE);#test
-        echo $this->css;#test
         echo "
             <p align='center' >
-            <br><br>
+            <br>
             ¿Quien más crees que podría interesarle optimiar su rendimiento?
             </p><br>
             <p align='center' >
@@ -332,6 +340,43 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             </li>
         </ul></p>
         ";
+    }
+    public function nav_bar($titulo=FALSE,$css=TRUE,$js=TRUE,$apace=FALSE)
+    {        
+        $id=$this->session->userdata('id');
+        $this->data['titulo']=!$titulo?$this->data['titulo']:$titulo;         
+        $nav_bar=$this->load->view('template/head',$this->data,TRUE);
+        $nav_bar.=$css?$this->css:'';
+        $nav_bar.=$js?$this->javascript:'';
+        
+        $url=base_url().'psiquis';
+        if($titulo=='NOT NAV BAR')return $nav_bar; 
+        if($id=='')        
+            $nav_bar.="
+            <div class='nav_bar' >
+            <a class='item_nav_bar' href='$url/singup/lista' style='color:#111;'>
+                <i class='fa fa-check'></i>
+                Registro Gratis
+            </a>
+            <a class='item_nav_bar' href='$url/login/lista' style='color:#111;'>
+                <i class='ingresar_ico glyphicon glyphicon-user'></i>
+                Ingresar
+            </a>
+            </div>";
+         else
+            $nav_bar.="
+            <div class='nav_bar' >
+            <a class='item_nav_bar' href='$url/singup/lista' style='color:#111;'>
+                <i class='fa fa-check'></i>
+                Listados de tests
+            </a>
+            <a class='item_nav_bar' href='$url/logout' style='color:#111;'>
+                <i class='ingresar_ico glyphicon glyphicon-user'></i>
+                Salir
+            </a>
+            </div>";
+            $nav_bar.=$apace?"<br><br>":'';
+        return $nav_bar;       
     }
     public function insert($reffer="")
     {/*
@@ -372,19 +417,13 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
         
         if($reffer!="")redirect(base_url().'psiquis/print_item/'.$reffer);
          */
-        $this->data['titulo']='Psiquis - Gracias';
-        echo  $this->load->view('template/head',$this->data,TRUE);
-        #echo  $this->load->view('template/javascript',FALSE,TRUE);
-        #echo $this->css_x;
-       
-        echo $this->css;
-        echo $this->javascript;
-        echo "<body><div>";
+        
+        echo @$this->nav_bar('Psiquis - Gracias');                
         echo "<h1 align='center' class='c'><br><br>
         Muchas gracias, por terminar el test.</h1>
         <h2 align='center' class='c'>Tus respuestas serán comparadas de forma anónima, con otras en la población similar.
         <br>Pronto te contactaremos, con los resultados.</h2>";        
-        echo @$this->compartir(base_url.'psiquis/');#Botones compartirredes sociles
+        echo @$this->compartir();#Botones compartirredes sociles
         echo "</div>";
     }
     public function print_item($id,$id2="")
@@ -402,14 +441,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
         #print_r($item);
         #echo "</PRE>";
         #return;
-        $this->data['titulo']='Psiquis - '.$item->nombre;
-        echo  $this->load->view('template/head',$this->data,TRUE);
-        echo  $this->load->view('template/javascript',FALSE,TRUE);
-       # echo $this->css_x;
-        echo $this->css;
-        echo $this->javascript;
-        echo "<body><div>";
-                 
+        echo @$this->nav_bar('Psiquis - '.$item->nombre,TRUE,TRUE,TRUE);
         $e=0;
         echo  form_open_multipart('psiquis/insert/'.$id2,array('name'=>'f'));  
         echo form_input(array('type'=>'hidden','name'=>'test','value'=>$id));#inprimir otros datos necesarios
@@ -497,12 +529,14 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 $error="<div align='center' style='color:#ff0000;width:100%;heigth:1%;'><h3>Usuario o clave incorrectos</h3></div>";
             }
             $this->data['titulo']='Psiquis Login';
-            echo  $this->load->view('template/head',$this->data,TRUE);
-            echo  $this->load->view('template/javascript',FALSE,TRUE);
+            
+            
             echo $this->css;
             echo $this->javascript;
+            echo @$this->nav_bar();
+            
             echo "
-                    <div class='login' style='padding-top: 25%;'>
+                    <div class='login' style='padding-top: 0%;'>
                         <link rel='stylesheet' type='text/css' href='<?php echo css_url()?>styles_login.css'>";
             echo form_open_multipart('psiquis/login/'.$reffer);            
                        
@@ -510,7 +544,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                                 <div class='modal-header borders' style='border-bottom: none;'>
                                     
 
-                                    <img class='center-block' src='".base_url()."uploads/logos/default.png' style='
+                                    <img class='center-block' src='".base_url()."uploads/default.png' style='
                                         margin-top: 20%;
                                     '>
 
@@ -564,6 +598,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                         echo  " <a data-toggle='modal' data-target='#popup_login' id='auto_launch'> </a>
                                 <script>login();</script>";
                         echo  form_close();
+                        $this->compartir();
        }       
     function singup($reffer="")
     {            
@@ -592,10 +627,12 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 }
             }
             $this->data['titulo']='Psiquis Singup';
-            echo  $this->load->view('template/head',$this->data,TRUE);
-            echo  $this->load->view('template/javascript',FALSE,TRUE);
+            
+            
             echo $this->css;
             echo $this->javascript;
+            echo @$this->nav_bar();
+            
             echo "
                     <div class='login' style='padding-top: 25%;'>
                         <link rel='stylesheet' type='text/css' href='<?php echo css_url()?>styles_login.css'>";
@@ -604,7 +641,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                                 <div class='modal-header borders' style='border-bottom: none;'>
                                     
 
-                                            <img class='center-block' src='".base_url()."uploads/logos/default.png' style='
+                                            <img class='center-block' src='".base_url()."uploads/default.png' style='
                                                 margin-top: 8%;
                                             '>
 
@@ -676,7 +713,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     public function lista()
     {           
             $id=$this->session->userdata('id');
-            if(!is_numeric($id))redirect(base_url.'psiquis/login/lista');
+            if($id=='')redirect(base_url().'psiquis/login/lista');
             $obj;$obj->id=0;
             $list_system=$this->psiquis->get(array('nombre'=>'list_system'),'id','item')->id;
             $out;  $out->id=0;
@@ -691,6 +728,16 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             $history=$tmp;
             
             $items = $this->psiquis->get_all(null,'*','item');
+            
+             
+            echo @$this->nav_bar('lista de test',TRUE,FALSE,TRUE);
+            
+            if(!$items)            
+            {    
+                echo "<div id='test'><h1 align='center' class='c'>No hay test, en en este monento";
+                return;
+            }
+           
             $objs=array();
             foreach ($items as $key => $item)
             {
@@ -715,10 +762,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             #print_r($data_user);
             #echo "</PRE>";
             #return;
-            $this->data['titulo']='lista de test';
-            echo  $this->load->view('template/head',$this->data,TRUE);
-            echo  $this->load->view('template/javascript',FALSE,TRUE);
-            echo  $this->css;
+            
             echo "<div id='test'><h1 align='center' class='c'>";
             foreach ($items as $key => $item) 
             {
@@ -760,9 +804,11 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     public function make_item($reffer="",$data_item="imagen_encabezado101''111pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.4111ran101FALSE")
     {
             $this->data['titulo']='lista de test';
-            echo  $this->load->view('template/head',$this->data,TRUE);
-            echo  $this->load->view('template/javascript',FALSE,TRUE);
+            
+            
             echo  $this->css;            
+            echo  @$this->nav_bar();
+            echo  "<br><br><br>";       
             echo form_open_multipart('psiquis/insert_item/'.$reffer,array('name'=>'f')); 
             echo "<label class='c' for='#nombre'>Nombre: </label>";
             echo form_input(array('class'=>'c','type'=>'hidden','name'=>'id'));#inprimir otros datos necesarios
@@ -834,12 +880,9 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     public function welcome()
     {
          $url=base_url().'psiquis';
-         $this->data['titulo']='Psiquis welcome!!!';
-         echo  $this->load->view('template/head',$this->data,TRUE);
-         echo  $this->load->view('template/javascript',FALSE,TRUE);
-         echo $this->css;
-         echo $this->javascript;
-         echo "<div class='top'>Psiquis</div>";
+         $this->data['titulo']='Psiquis welcome!!!';         
+         echo @$this->nav_bar('NOT NAV BAR');
+         echo "<div class='top'><img src='".base_url()."uploads/default2.png' style='max-width:100%'></div>";
          echo "<div class='body'>
             <h3 id='title_welcome'> Bienvenido</h3>
             <p align='justify' style='font-size: larger;'>
@@ -854,9 +897,14 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 Lleva a cabo todos tus proyectos sin escusas, de la mejor manera, sin estresarte y disfrutalo. no sufras.
             </p>
             <p>
-                <a class='btn btn-default regiutro' href='$url/singup/lista'>Inicia ya! es gratís</a>
+                <a class='btn btn-default registro' href='$url/singup/lista'>Inicia ya! es gratís</a>
             </p>                
          </div>";
          echo "<div class='footer'></div>";
     } 
+    
+	public function logout(){
+        $this->session->sess_destroy();
+         redirect($_SERVER['HTTP_REFERER'],'refresh');
+    }
 }
