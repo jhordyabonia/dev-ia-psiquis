@@ -15,6 +15,8 @@ class Psiquis extends CI_Controller {
         
 		$this->load->library(array('session'));
        	$this->load->model('Psiquis_model','psiquis');
+        $this->data['titulo']='Psiquis';
+      
         $this->javascript="
             <script>
                 function login()
@@ -41,6 +43,75 @@ class Psiquis extends CI_Controller {
                 </stylee>";
         $this->css="
             <style>
+            /*******Social start********/
+            
+            .inline p{
+	display: inline-block;
+    margin: 10px 0px 10px;
+    padding: 0;
+}
+.well-social{
+	margin-top: 23px;
+}
+a.share-btn{
+	color:#fff;
+	text-decoration:none
+}
+.share-btn {
+	cursor:pointer;
+	color: #fff;
+	border: none;
+	padding: 12px 10px 11px 10px;
+	-webkit-font-smoothing: subpixel-antialiased;
+	-webkit-transition: border .25s linear,color .25s linear,background-color .25s linear;
+	transition: border .25s linear,color .25s linear,background-color .25s linear
+}
+.share-btn span{
+	font-family: sans-serif
+}
+.share-btn:hover {
+	background-color: rgba(220,220,220,0.5);
+	color: #000;
+	text-decoration:none;
+}
+.s_facebook {
+	background-color: #4769a5;
+	border-color: #354d79;
+	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
+}
+.s_twitter {
+	background-color: #51a3bf;
+	border-color: #408299;
+	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
+}
+.s_plus {
+	background-color: #bf3727;
+	border-color: #932b1f;
+	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
+}
+.s_linkedin {
+	background-color: #2ba3e1;
+	border-color: #207aa8;
+	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
+}
+
+.s_email {
+	background-color: #4c75a3;
+	border-color: #39587b;
+	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
+}
+.s_whatsapp {
+	background-color: #08C65B;
+	border-color: #39587b;
+	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
+	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
+}
+            /*******Social end**********/
             .img{
                 padding: 5%;
                 max-width: 100%;
@@ -165,7 +236,7 @@ class Psiquis extends CI_Controller {
     }   
     function index()
     {
-        #ENVIRONMENT="";
+        return $this->welcome();
         $data=$this->psiquis->get_all();
         foreach ($data as $key => $value)
               $value->data=$this->psiquis->get_all(array('usuario'=>$value->id),'*','data_usuario');
@@ -213,8 +284,57 @@ class Psiquis extends CI_Controller {
         }
         return $out;
     }
-    public function insert($reffer="")
+    
+public function compartir($url='',$titulo='Psiquis, la primera app que te optimiza a ti no a tu teléfono',$descripcion='',$img='psiquis.png')
     {
+        $url=rawurlencode($url);
+        $url.=$url==''?base_url().'psiquis':'';
+        
+        echo $this->load->view('template/head',$this->data,TRUE);#test
+        echo $this->css;#test
+        echo "
+            <p align='center' >
+            <br><br>
+            ¿Quien más crees que podría interesarle optimiar su rendimiento?
+            </p><br>
+            <p align='center' >
+            <ul class='list-inline center-block text-center'>
+            <li>
+                <a href='https://www.facebook.com/sharer/sharer.php?s=100&p%5Btitle%5D=$titulo&p%5Bsummary%5D=$descripcion&p%5Burl%5D=$url&p%5Bimages%5D%5B0%5D=$img'
+                 type='button' class='btn share-btn share s_facebook'>
+                    <i class='fa fa-facebook fa-fw'></i>
+                </a>
+            </li>
+            <li>
+                <a href='https://plus.google.com/share?url=$url' type='button' class='btn share-btn share s_plus'>
+                    <i class='fa fa-google fa-fw'></i>
+                </a>
+            </li>
+            <li>
+                <a href='https://twitter.com/intent/tweet?url=$url&text=$titulo' type='button' class='btn share-btn share s_twitter'>
+                    <i class='fa fa-twitter fa-fw'></i>
+                </a>
+            </li>
+            <li>
+                <a href='https://www.linkedin.com/shareArticle?mini=true&url=$url&title=$titulo&summary=$descripcion' type='button' class='btn share-btn share s_linkedin'>
+                    <i class='fa fa-linkedin fa-fw'></i>
+                </a>
+            </li>
+            <li>
+                <a href='whatsapp://send?text=$url $titulo' type='button' class='btn share-btn share s_whatsapp'>
+                <i class='fa fa-whatsapp fa-fw'></i>
+                </a>
+            </li>
+            <li>
+                <a href='mailto:?subject=%27$titulo%27&body=$descripcion' type='button' class='btn share-btn share s_email'>
+                    <i class='fa fa-envelope fa-fw'></i>
+                </a>
+            </li>
+        </ul></p>
+        ";
+    }
+    public function insert($reffer="")
+    {/*
         $respuestas=$this->input->post('respuesta');
         $descripcion=$this->input->post('descripcion');
         $test=$this->input->post('test');
@@ -251,23 +371,21 @@ class Psiquis extends CI_Controller {
         $this->psiquis->insert(array('usuario'=>$usuario,'clave'=>'history','valor'=>$test),'data_usuario');
         
         if($reffer!="")redirect(base_url().'psiquis/print_item/'.$reffer);
-         
-        $data=array('titulo'=>'Psiquis - Gracias');
-        echo  $this->load->view('template/head',$data,TRUE);
-        echo  $this->load->view('template/javascript',FALSE,TRUE);
-       # echo $this->css_x;
+         */
+        $this->data['titulo']='Psiquis - Gracias';
+        echo  $this->load->view('template/head',$this->data,TRUE);
+        #echo  $this->load->view('template/javascript',FALSE,TRUE);
+        #echo $this->css_x;
+       
         echo $this->css;
         echo $this->javascript;
         echo "<body><div>";
-        echo "<h1 align='center' class='c'>
+        echo "<h1 align='center' class='c'><br><br>
         Muchas gracias, por terminar el test.</h1>
         <h2 align='center' class='c'>Tus respuestas serán comparadas de forma anónima, con otras en la población similar.
-        <br>Pronto te contactaremos, con los resultados.</h2>
-        <p align='center' >¿Quien más crees que podría interesarle optimiar su rendimiento?<br><br>";
-        echo "<p align='center' >";#Botones compartirredes sociles
+        <br>Pronto te contactaremos, con los resultados.</h2>";        
+        echo @$this->compartir(base_url.'psiquis/');#Botones compartirredes sociles
         echo "</div>";
-        
-         
     }
     public function print_item($id,$id2="")
     {        
@@ -284,8 +402,8 @@ class Psiquis extends CI_Controller {
         #print_r($item);
         #echo "</PRE>";
         #return;
-        $data=array('titulo'=>'Psiquis - '.$item->nombre);
-        echo  $this->load->view('template/head',$data,TRUE);
+        $this->data['titulo']='Psiquis - '.$item->nombre;
+        echo  $this->load->view('template/head',$this->data,TRUE);
         echo  $this->load->view('template/javascript',FALSE,TRUE);
        # echo $this->css_x;
         echo $this->css;
@@ -378,8 +496,8 @@ class Psiquis extends CI_Controller {
                 }
                 $error="<div align='center' style='color:#ff0000;width:100%;heigth:1%;'><h3>Usuario o clave incorrectos</h3></div>";
             }
-            $data=array('titulo'=>'Psiquis Login');
-            echo  $this->load->view('template/head',$data,TRUE);
+            $this->data['titulo']='Psiquis Login';
+            echo  $this->load->view('template/head',$this->data,TRUE);
             echo  $this->load->view('template/javascript',FALSE,TRUE);
             echo $this->css;
             echo $this->javascript;
@@ -473,8 +591,8 @@ class Psiquis extends CI_Controller {
                     return;
                 }
             }
-            $data=array('titulo'=>'Psiquis Singup');
-            echo  $this->load->view('template/head',$data,TRUE);
+            $this->data['titulo']='Psiquis Singup';
+            echo  $this->load->view('template/head',$this->data,TRUE);
             echo  $this->load->view('template/javascript',FALSE,TRUE);
             echo $this->css;
             echo $this->javascript;
@@ -558,6 +676,7 @@ class Psiquis extends CI_Controller {
     public function lista()
     {           
             $id=$this->session->userdata('id');
+            if(!is_numeric($id))redirect(base_url.'psiquis/login/lista');
             $obj;$obj->id=0;
             $list_system=$this->psiquis->get(array('nombre'=>'list_system'),'id','item')->id;
             $out;  $out->id=0;
@@ -566,6 +685,7 @@ class Psiquis extends CI_Controller {
             $history = $this->psiquis->get_all(array('usuario'=>$id,'clave'=>'history'),'*','data_usuario');
             
             $tmp=array();
+            if($history)
             foreach ($history as $key => $value) 
                 $tmp[]=$value->valor;
             $history=$tmp;
@@ -595,8 +715,8 @@ class Psiquis extends CI_Controller {
             #print_r($data_user);
             #echo "</PRE>";
             #return;
-            $data=array('titulo'=>'lista de test');
-            echo  $this->load->view('template/head',$data,TRUE);
+            $this->data['titulo']='lista de test';
+            echo  $this->load->view('template/head',$this->data,TRUE);
             echo  $this->load->view('template/javascript',FALSE,TRUE);
             echo  $this->css;
             echo "<div id='test'><h1 align='center' class='c'>";
@@ -639,8 +759,8 @@ class Psiquis extends CI_Controller {
      }       
     public function make_item($reffer="",$data_item="imagen_encabezado101''111pregunta1101.111html_tag101div111texto_encabezado101¿111numero_preguntas1010111tipo101test111clase101estandar111numero_repeticiones1015111recursos101palabras.4111ran101FALSE")
     {
-            $data=array('titulo'=>'lista de test');
-            echo  $this->load->view('template/head',$data,TRUE);
+            $this->data['titulo']='lista de test';
+            echo  $this->load->view('template/head',$this->data,TRUE);
             echo  $this->load->view('template/javascript',FALSE,TRUE);
             echo  $this->css;            
             echo form_open_multipart('psiquis/insert_item/'.$reffer,array('name'=>'f')); 
@@ -659,8 +779,7 @@ class Psiquis extends CI_Controller {
                 echo form_input(array('class'=>'c','id'=>"clave$key",'name'=>'clave[]','value'=>$tmp[0]));#inprimir otros datos necesarios
                 echo "<label class='c' for='#valor$key'>Valor: </label>";                
                 echo form_input(array('class'=>'c','id'=>"valor$key",'name'=>'valor[]','value'=>$tmp[1]));#inprimir otros datos necesarios
-                echo "</div>";
-                
+                echo "</div>";                
             }
             echo "</div>";            
             echo "<a onclick='agregar()' class='c btn btn-defaul'>Agregar data</a>";
@@ -715,8 +834,8 @@ class Psiquis extends CI_Controller {
     public function welcome()
     {
          $url=base_url().'psiquis';
-         $data=array('titulo'=>'Psiquis welcome!!!');
-         echo  $this->load->view('template/head',$data,TRUE);
+         $this->data['titulo']='Psiquis welcome!!!';
+         echo  $this->load->view('template/head',$this->data,TRUE);
          echo  $this->load->view('template/javascript',FALSE,TRUE);
          echo $this->css;
          echo $this->javascript;
@@ -739,7 +858,5 @@ class Psiquis extends CI_Controller {
             </p>                
          </div>";
          echo "<div class='footer'></div>";
-            
-        
     } 
 }
