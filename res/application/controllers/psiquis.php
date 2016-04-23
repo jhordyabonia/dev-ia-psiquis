@@ -370,7 +370,6 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
              border: 0!important;
              color: white;
              background-color: rgba(0,0,0,0);
-             overflow-y:scroll;
            }
            .scroll
            {
