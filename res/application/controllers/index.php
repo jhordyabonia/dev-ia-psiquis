@@ -13,6 +13,6 @@ class Index extends CI_Controller
     {parent::__construct();}
     public function index()
     {
-        echo "Hellow Psiquis.";
+        redirect(base_url().'psiquis');
     }
 }
