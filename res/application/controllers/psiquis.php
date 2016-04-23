@@ -536,7 +536,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             echo @$this->nav_bar();
             
             echo "
-                    <div class='login' style='padding-top: 0%;'>
+                    <div class='login' style='padding-top: 15%;'>
                         <link rel='stylesheet' type='text/css' href='<?php echo css_url()?>styles_login.css'>";
             echo form_open_multipart('psiquis/login/'.$reffer);            
                        
