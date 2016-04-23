@@ -10,7 +10,7 @@ class Index extends CI_Controller
 {
     	///Constructor de la clase del control
 	function __construct() 
-    {}
+    {parent::__construct();}
     public function index()
     {
         echo "Hellow Psiquis.";

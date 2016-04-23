@@ -31,6 +31,13 @@ class Psiquis extends CI_Controller {
                     document.getElementById('div'+id).style.display='none';
                     next.style.display=''; 
                  }
+                 function inputs()
+                 {
+                     var v=document.getElementsByTagName('input');
+                     for(var i=0;i<v.length;i++)                        
+                        v[i].onchange=function(){this.className=this.className.replace('input_txt');};
+                 }
+                 window.onload=inputs;
             </script>";
         $this->css_x="<style>
                 HTML 
@@ -131,23 +138,24 @@ a.share-btn{
                 margin: 2%;
                 border: 1px solid whitesmoke;
             }
-            .div {
-                    width: 100%;
-                    padding: 10px 15px 10px 15px;
-                    border: 1px solid lightgray;
-                    margin: 1%;
-                    text-align: justify;
-                }
+            .div 
+            {
+               width: 100%;
+               padding: 10px 15px 10px 15px;
+               border: 1px solid lightgray;
+               margin: 1%;
+               text-align: justify;
+               cursor:pointer;
+             }
                 input:invalid 
                 { border: 1px solid red;}
                         
                 input:valid 
                 {border: 1px solid green;}
                 input
-                {
-                    color:black!important;
-                    border: 1px solid #0C82CF;
-                }
+                { color:black!important;}
+                .input_txt
+                { border: 1px solid #0C82CF!important;}
                 .continuar
                 {
                     float: right;
@@ -205,8 +213,8 @@ a.share-btn{
                 .c 
                 {
                      width: 100%;
-                     padding: 3%;
-                     margin: 1%;
+                     padding: 3% 15% 3% 0%;
+                     margin: 1% 0% 1% 0%;
                  }
                  .option
                  {
@@ -238,10 +246,14 @@ a.share-btn{
                     float: right;
                     padding: 2% 1% 0% 1%;
                 }
+                .desktop
+                {
+                    background-color: #0C82CF;
+                }
                 #title_welcome
                 {
                     color:#0C82CF;
-                }
+                }                
             </style>";
     }   
     function index()
@@ -308,7 +320,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             <p align='center' >
             <ul class='list-inline center-block text-center'>
             <li>
-                <a href='https://www.facebook.com/sharer/sharer.php?s=100&p%5Btitle%5D=$titulo&p%5Bsummary%5D=$descripcion&p%5Burl%5D=$url&p%5Bimages%5D%5B0%5D=$img'
+                <a href='https://www.facebook.com/sharer/sharer.php?m2w&s=100&p%5Burl%5D=$url'
                  type='button' class='btn share-btn share s_facebook'>
                     <i class='fa fa-facebook fa-fw'></i>
                 </a>
@@ -341,6 +353,77 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
         </ul></p>
         ";
     }
+    public function testg()
+    {
+        echo @$this->nav_bar('NOT NAV BAR');
+    }
+    private function device($in)
+    {
+         $url=base_url().'psiquis';
+         $this->ci = &get_instance();
+         if ($this->ci->agent->is_mobile())   return $in;        
+         $in.="  
+         <style>
+         .main_content
+          {
+             padding: 0%;
+             border: 0!important;
+             color: white;
+             background-color: rgba(0,0,0,0);
+             overflow-y:scroll;
+           }
+           .scroll
+           {
+                overflow-y: scroll!important;
+                overflow-x: hidden!important;
+                height: 550px;
+           }
+           .item_nav_bar
+           {  
+                color: white!important;
+            }
+            .body
+             {
+                padding: 2% 8% 0% 5%!important;
+            }
+          </style>     
+          <div class='desktop'>
+             <img src='".base_url()."uploads/default2.png' style='max-width:100%'>
+          </div>          
+          <div class='col-md-8 col-xs-8 col-lg-8 body'>
+            <h3 id='title_welcome'> Bienvenido</h3>
+            <p align='justify' style='font-size: larger;'>
+               Psiquis es una red neuronal con la capacidad descifrar, patrones de comportamiento y hacer recomendaciones, utiles, para su optimzacion. Mediante el analisis de simples test; en su mayoria sobre prefencias generales, gustos, y sensaciones detonadas, por una serie de imagenes y/o palabras.
+            </p>
+            <p align='justify' style='font-size: initial;'>
+                Cada test, ha sido diseñado para optener informacion especifica sobre el comportamiento del  individuo, con el fin posterior, de dianosticar y sugerir, posibles cambios que permitan:
+            <ul>
+                <li> Tener una vida con menos estres.
+                <li> Ser proactivo.
+                <li> Mantener un buen estado de animo y actitud, indispensables en cualquier    emprendimietnto de nuestro día a día.
+                <li> Adiestra a su subconsciente para fijar asociaciones mentales que lo encaminaran a donde usted decida. Promoción en su lugar de trabajo, aumentos salariales, estimulos academicos (becas), culminar proyectos inconclusos... etc. 
+            </ul>
+            </p>
+            <p align='justify' style='font-size: initial;'>
+                Usted decide, tome el control.
+            </p>                        
+            <p align='justify' style='font-size: 125%;'>
+                El lansamiento oficial de Psiquis, esta fijado para el segundo semestre del presenta año. 
+                Es un servicio que se prestará bajo pago por membresias, en esta version beta, se permitirá 
+                el registro gratuito de 500 beta tester, los cuales mantendran, du membresia aun des pues del lazamiento oficial, por tiempo indefinido.
+           </p>  "; 
+           
+           $id=$this->session->userdata('id');                    
+           $in.=$id==''?"
+            <p>
+                <a class='btn btn-default registro' href='$url/singup/lista'>Inicia ya! es gratís</a>
+            </p>    
+            ":'';
+            $in.="            
+            </div>
+            <div class='col-md-3 col-xs-3 col-lg-3 scroll'>";
+          return $in;
+    }
     public function nav_bar($titulo=FALSE,$css=TRUE,$js=TRUE,$apace=FALSE)
     {        
         $id=$this->session->userdata('id');
@@ -348,12 +431,11 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
         $nav_bar=$this->load->view('template/head',$this->data,TRUE);
         $nav_bar.=$css?$this->css:'';
         $nav_bar.=$js?$this->javascript:'';
-        
         $url=base_url().'psiquis';
-        if($titulo=='NOT NAV BAR')return $nav_bar; 
+        if($titulo=='NOT NAV BAR')return $this->device($nav_bar); 
         if($id=='')        
             $nav_bar.="
-            <div class='nav_bar' >
+            <div class='main_content nav_bar' >
             <a class='item_nav_bar' href='$url/singup/lista' style='color:#111;'>
                 <i class='fa fa-check'></i>
                 Registro Gratis
@@ -365,7 +447,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             </div>";
          else
             $nav_bar.="
-            <div class='nav_bar' >
+            <div class='main_content nav_bar' >
             <a class='item_nav_bar' href='$url/singup/lista' style='color:#111;'>
                 <i class='fa fa-check'></i>
                 Listados de tests
@@ -375,11 +457,11 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 Salir
             </a>
             </div>";
-            $nav_bar.=$apace?"<br><br>":'';
-        return $nav_bar;       
+        return $this->device($nav_bar).($apace?"<br><br>":'');       
+        #return $nav_bar.($apace?"<br><br>":'');       
     }
     public function insert($reffer="")
-    {/*
+    {
         $respuestas=$this->input->post('respuesta');
         $descripcion=$this->input->post('descripcion');
         $test=$this->input->post('test');
@@ -416,13 +498,12 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
         $this->psiquis->insert(array('usuario'=>$usuario,'clave'=>'history','valor'=>$test),'data_usuario');
         
         if($reffer!="")redirect(base_url().'psiquis/print_item/'.$reffer);
-         */
-        
+                 
         echo @$this->nav_bar('Psiquis - Gracias');                
-        echo "<h1 align='center' class='c'><br><br>
+        echo "<div align='center' style='width:100%'><h1><br>
         Muchas gracias, por terminar el test.</h1>
-        <h2 align='center' class='c'>Tus respuestas serán comparadas de forma anónima, con otras en la población similar.
-        <br>Pronto te contactaremos, con los resultados.</h2>";        
+        <h2>Tus respuestas serán comparadas de forma anónima, con otras en la población similar.
+        <br>Pronto te contactaremos, con los resultados.</h2><center>";        
         echo @$this->compartir();#Botones compartirredes sociles
         echo "</div>";
     }
@@ -879,7 +960,12 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     }
     public function welcome()
     {
+          $this->ci = &get_instance();
          $url=base_url().'psiquis';
+         
+         if (!$this->ci->agent->is_mobile())
+            redirect($url.'/login');
+            
          $this->data['titulo']='Psiquis welcome!!!';         
          echo @$this->nav_bar('NOT NAV BAR');
          echo "<div class='top'><img src='".base_url()."uploads/default2.png' style='max-width:100%'></div>";
