@@ -407,7 +407,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 Usted decide, tome el control.
             </p>                        
             <p align='justify' style='font-size: 125%;'>
-                El lansamiento oficial de Psiquis, esta fijado para el segundo semestre del presenta año. 
+                El lanzamiento oficial de Psiquis, esta fijado para el segundo semestre del presente año. 
                 Es un servicio que se prestará bajo pago por membresias, en esta version beta, se permitirá 
                 el registro gratuito de 500 beta tester, los cuales mantendran, du membresia aun des pues del lazamiento oficial, por tiempo indefinido.
            </p>  "; 
