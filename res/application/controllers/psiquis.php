@@ -958,11 +958,11 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             echo  form_close();
     }
     public function welcome()
-    {
+    {        
+         $this->ci = &get_instance();
          if (!$this->ci->agent->is_mobile())
             return $this->login('lista');
             
-         $this->ci = &get_instance();
          $url=base_url().'psiquis';
             
          $this->data['titulo']='Psiquis welcome!!!';         
