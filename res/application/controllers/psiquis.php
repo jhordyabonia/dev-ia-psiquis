@@ -394,15 +394,15 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
           <div class='col-md-8 col-xs-8 col-lg-8 body'>
             <h3 id='title_welcome'> Bienvenido</h3>
             <p align='justify' style='font-size: larger;'>
-               Psiquis es una red neuronal con la capacidad de descifrar, patrones de comportamiento y hacer recomendaciones, utiles, para su optimzacion. Mediante el analisis de simples test; en su mayoria sobre prefencias generales, gustos, y sensaciones detonadas, por una serie de imagenes y/o palabras.
+               Psiquis es una red neuronal con la capacidad de descifrar, patrones de comportamiento humano y hacer recomendaciones, útiles, para su optimización. Mediante el análisis de simples test; en su mayoría sobre preferencias generales, gustos, y sensaciones detonadas, por una serie de imágenes y/o palabras.
             </p>
             <p align='justify' style='font-size: initial;'>
-                Cada test, ha sido diseñado para optener informacion especifica sobre el comportamiento del  individuo, con el fin posterior, de dianosticar y sugerir, posibles cambios que permitan:
+                Cada test, ha sido diseñado para obtener información especifica sobre el comportamiento del  individuo, con el fin posterior, de diagnosticar y sugerir, posibles cambios que permitan:
             <ul>
-                <li> Tener una vida con menos estres.
-                <li> Ser proactivo.
+                <li> Tener una vida con menos estrés.
+                <li> Ser pro-activo.
                 <li> Mantener un buen estado de animo y actitud, indispensables en cualquier emprendimiento de nuestro día a día.
-                <li> Adiestra a su subconsciente para fijar asociaciones mentales que lo encaminaran a donde usted decida. Promoción en su lugar de trabajo, aumentos salariales, estimulos academicos (becas), culminar proyectos inconclusos... etc. 
+                <li> Adiestra a su subconsciente para fijar asociaciones mentales que lo encaminaran a donde usted decida. Promoción en su lugar de trabajo, aumentos salariales, estímulos académicos (becas), culminar proyectos inconclusos... etc. 
             </ul>
             </p>
             <p align='justify' style='font-size: initial;'>
@@ -410,8 +410,8 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             </p>                        
             <p align='justify' style='font-size: 125%;'>
                 El lanzamiento oficial de Psiquis, esta fijado para el segundo semestre del presente año. 
-                Es un servicio que se prestará bajo pago por membresias, en esta version beta, se permitirá 
-                el registro gratuito de 500 beta tester, los cuales mantendran, du membresia aun des pues del lazamiento oficial, por tiempo indefinido.
+                Es un servicio que se prestará bajo pago por membresias, en esta versión beta, se permitirá 
+                el registro gratuito de 500 beta tester, los cuales mantendrán, su membresia aun des pues del lanzamiento oficial, por tiempo indefinido.
            </p>  "; 
            
            $id=$this->session->userdata('id');                    
