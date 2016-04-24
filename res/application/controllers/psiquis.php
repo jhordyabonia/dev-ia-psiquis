@@ -215,7 +215,7 @@ a.share-btn{
                 .c 
                 {
                      width: 100%;
-                     padding: 3% 15% 3% 0%;
+                     padding: 3% 0% 3% 0%;
                      margin: 1% 0% 1% 0%;
                  }
                  .option

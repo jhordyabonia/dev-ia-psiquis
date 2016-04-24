@@ -10,6 +10,7 @@
   <link href="<?=base_url() ?>assets/bootstrap/css/bootstrap.css" rel="stylesheet">
   <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="<?=base_url() ?>uploads/default.ico" rel="shortcut icon" />
+  <link href="<?=base_url() ?>uploads/default.ico" rel="favicon" />
 
 <script src = "<?=base_url()?>assets/js/jquery.js"></script>
 <script src = "<?=base_url()?>assets/js/bootstrap.min.js"></script>
