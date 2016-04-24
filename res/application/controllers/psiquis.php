@@ -401,7 +401,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
             <ul>
                 <li> Tener una vida con menos estres.
                 <li> Ser proactivo.
-                <li> Mantener un buen estado de animo y actitud, indispensables en cualquier    emprendimietnto de nuestro día a día.
+                <li> Mantener un buen estado de animo y actitud, indispensables en cualquier emprendimiento de nuestro día a día.
                 <li> Adiestra a su subconsciente para fijar asociaciones mentales que lo encaminaran a donde usted decida. Promoción en su lugar de trabajo, aumentos salariales, estimulos academicos (becas), culminar proyectos inconclusos... etc. 
             </ul>
             </p>
