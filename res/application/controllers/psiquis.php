@@ -118,6 +118,8 @@ a.share-btn{
 	-webkit-box-shadow: inset 0 -2px 0 rgba(0,0,0,.15);
 	box-shadow: inset 0 -2px 0 rgba(0,0,0,.15)
 }
+.list-inline > li {
+     padding-right: 0px!important; }
             /*******Social end**********/
             .img{
                 padding: 5%;
@@ -392,7 +394,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
           <div class='col-md-8 col-xs-8 col-lg-8 body'>
             <h3 id='title_welcome'> Bienvenido</h3>
             <p align='justify' style='font-size: larger;'>
-               Psiquis es una red neuronal con la capacidad descifrar, patrones de comportamiento y hacer recomendaciones, utiles, para su optimzacion. Mediante el analisis de simples test; en su mayoria sobre prefencias generales, gustos, y sensaciones detonadas, por una serie de imagenes y/o palabras.
+               Psiquis es una red neuronal con la capacidad de descifrar, patrones de comportamiento y hacer recomendaciones, utiles, para su optimzacion. Mediante el analisis de simples test; en su mayoria sobre prefencias generales, gustos, y sensaciones detonadas, por una serie de imagenes y/o palabras.
             </p>
             <p align='justify' style='font-size: initial;'>
                 Cada test, ha sido diseñado para optener informacion especifica sobre el comportamiento del  individuo, con el fin posterior, de dianosticar y sugerir, posibles cambios que permitan:
@@ -506,7 +508,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
         echo @$this->compartir();#Botones compartirredes sociles
         echo "</div>";
     }
-    public function print_item($id,$id2="")
+    public function print_item($id=42,$id2='')
     {        
         $item = $this->psiquis->get($id,'*','item');
         $item->data = $this->psiquis->get_all(array('item'=>$id),'*','data_item');
@@ -574,7 +576,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
          $url=base_url().'uploads/';
          $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>"; 
          if($tag=='div')
-            $out="<$tag class='c $tag' onclick='asistente(%0,this);'>%1</$tag>";      
+            $out="<$tag class='$tag' onclick='asistente(%0,this);'>%1</$tag>";      
          if($tag=='span')
             $out="<$tag class='c btn btn-default' onclick='asistente(%0,this);'>%1</$tag>";      
          else if($tag=='img')                
@@ -812,12 +814,6 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
              
             echo @$this->nav_bar('lista de test',TRUE,FALSE,TRUE);
             
-            if(!$items)            
-            {    
-                echo "<div id='test'><h1 align='center' class='c'>No hay test, en en este monento";
-                return;
-            }
-           
             $objs=array();
             foreach ($items as $key => $item)
             {
@@ -838,11 +834,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 $objs[]=$item;
             }
             $items=$objs;
-            #echo "<PRE>";
-            #print_r($data_user);
-            #echo "</PRE>";
-            #return;
-            
+            $list=FALSE;
             echo "<div id='test'><h1 align='center' class='c'>";
             foreach ($items as $key => $item) 
             {
@@ -850,7 +842,15 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
                 
                 if($item->data->clase!=$data_user->clase)continue;                
                 $url=base_url().'psiquis/print_item/'.$item->id;
-                 echo "<a class='c btn btn-default' href='$url'>".$item->nombre."</a>";                  
+                echo "<a class='c btn btn-default' href='$url'>".$item->nombre."</a>"; 
+                $list=TRUE;        
+            }
+            if(!$list)            
+            {    
+                echo "
+                      <h1 align='center' class='c' style='color:black!important'>
+                         No hay test habilitados, en este monento
+                      </h1>";
             }
             echo "</div>"; 
     }
