@@ -960,7 +960,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     public function welcome()
     {        
          $this->ci = &get_instance();
-         if (!$this->ci->agent->is_mobile()||$this->movilRobot())
+         if (!$this->ci->agent->is_mobile()&&!$this->movilRobot())
             return $this->login('lista');
             
          $url=base_url().'psiquis';
