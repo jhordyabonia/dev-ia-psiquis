@@ -960,32 +960,35 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     public function welcome()
     {        
          $this->ci = &get_instance();
-         if (!$this->ci->agent->is_mobile()&&!$this->movilRobot())
-            return $this->login('lista');
-            
-         $url=base_url().'psiquis';
-            
-         $this->data['titulo']='Psiquis welcome!!!';         
-         echo @$this->nav_bar('NOT NAV BAR');
-         echo "<div class='top'><img src='".base_url()."uploads/default2.png' style='max-width:100%'></div>";
-         echo "<div class='body'>
-            <h3 id='title_welcome'> Bienvenido</h3>
-            <p align='justify' style='font-size: larger;'>
-                Psiquis la primera app que te optimiza a ti no a tu teléfono
-            </p>
-            <p align='justify' style='font-size: initial;'>
-                Saca el mejor provecho de la autosugestión, automotivacion. 
-           <br> ¿Cuantas veces te has propuesto mejorar su rendimiento académico o laboral... lo  analizas, planeas, y nunca lo ejecutas? 
-           <br> Descubre que es eso que te falta. Que evita que lleves a la acción tus pensamientos, tus ideas.
-           <br> 
-           <br> Aprende mas sobre ti. sobre lo que que te motiva, lo que te frustra. Crece..
-                Lleva a cabo todos tus proyectos sin escusas, de la mejor manera, sin estresarte y disfrutalo. no sufras.
-            </p>
-            <p>
-                <a class='btn btn-default registro' href='$url/singup/lista'>Inicia ya! es gratís</a>
-            </p>                
-         </div>";
-         echo "<div class='footer'></div>";
+         if ($this->ci->agent->is_mobile()||$this->movilRobot())
+         {            
+            $url=base_url().'psiquis';
+                
+            $this->data['titulo']='Psiquis welcome!!!';         
+            echo @$this->nav_bar('NOT NAV BAR');
+            echo "<div class='top'><img src='".base_url()."uploads/default2.png' style='max-width:100%'></div>";
+            echo "<div class='body'>
+                <h3 id='title_welcome'> Bienvenido</h3>
+                <p align='justify' style='font-size: larger;'>
+                    Psiquis la primera app que te optimiza a ti no a tu teléfono
+                </p>
+                <p align='justify' style='font-size: initial;'>
+                    Saca el mejor provecho de la autosugestión, automotivacion. 
+            <br> ¿Cuantas veces te has propuesto mejorar su rendimiento académico o laboral... lo  analizas, planeas, y nunca lo ejecutas? 
+            <br> Descubre que es eso que te falta. Que evita que lleves a la acción tus pensamientos, tus ideas.
+            <br> 
+            <br> Aprende mas sobre ti. sobre lo que que te motiva, lo que te frustra. Crece..
+                    Lleva a cabo todos tus proyectos sin escusas, de la mejor manera, sin estresarte y disfrutalo. no sufras.
+                </p>
+                <p>
+                    <a class='btn btn-default registro' href='$url/singup/lista'>Inicia ya! es gratís</a>
+                </p>                
+            </div>";
+            echo "<div class='footer'></div>";
+            return;
+         }
+         
+        return $this->login('lista');
     } 
     
   private function movilRobot()
