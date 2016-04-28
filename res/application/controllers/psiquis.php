@@ -363,7 +363,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     {
          $url=base_url().'psiquis';
          $this->ci = &get_instance();
-         if ($this->ci->agent->is_mobile())   return $in;        
+         if ($this->ci->agent->is_mobile()||$this->movilRobot())   return $in;        
          $in.="  
          <style>
          .main_content
@@ -960,7 +960,7 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
     public function welcome()
     {        
          $this->ci = &get_instance();
-         if (!$this->ci->agent->is_mobile())
+         if (!$this->ci->agent->is_mobile()||$this->movilRobot())
             return $this->login('lista');
             
          $url=base_url().'psiquis';
@@ -988,6 +988,12 @@ public function compartir($url='',$titulo='Psiquis, la primera app que te optimi
          echo "<div class='footer'></div>";
     } 
     
+  private function movilRobot()
+  {
+    if($this->ci->agent->is_robot())
+		  return stripos("Googlebot-Mobile",$this->ci->agent->robot())>=0;	
+    return false;
+  }
 	public function logout(){
         $this->session->sess_destroy();
          redirect($_SERVER['HTTP_REFERER'],'refresh');
